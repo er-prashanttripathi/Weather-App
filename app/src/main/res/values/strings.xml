@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="alert">Alert</string>
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nulla erat, eleifend eget egestas vel, mattis placerat ipsum. Nulla non cursus nunc, lobortis pellentesque justo. Aliquam ac dui rutrum, scelerisque neque ac, consequat nunc. Aenean malesuada et erat at euismod. Nulla tempus pretium eros ac luctus. Integer vel nisi neque. In sit amet euismod mi.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="terms_condition">By continuing, I agree to the <a href="https://">Terms &amp; Condition</a> use and <a href="https://">Privacy Policy. </a></string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="by_using_this_app">By using this app, you agree to our <a href="http://www.google.com">Terms &amp; Conditions\n</a> and <a href="http://www.google.com">Privacy Policy</a>.</string>
+    <string name="splash_text">Embrace every forecast\n nature ever-changing canvas.</string>
+    <string name="invite_people">Invite people</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & conditions]]></string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="contact_us">Contact us</string>
+    <string name="logout">Logout</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="day">Day</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="select_your_gender">Select your gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="full_address">Full address</string>
+    <string name="pincode">Pincode</string>
+    <string name="please_enter_aadhar_card_number">Please enter AADHAR card number.</string>
+    <string name="enter_here">Enter here</string>
+    <string name="please_enter_pan_card_number">Please enter PAN card number.</string>
+    <string name="full_name">Full name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="front_side">Front side</string>
+    <string name="back_side">Back side</string>
+    <string name="developed_by">Developed By: \n Prashant Tripathi</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <array name="initial_slider_values">
+        <item>21</item>
+        <item>29</item>
+    </array>
+
+
+
+
+    <array name="search_array">
+        <item>Search a product</item>
+        <item>Try \"Fogg\"</item>
+        <item>Try \"Nivea\"</item>
+        <item>Try \"Engage\"</item>
+        <item>Try \"Wild Stone\"</item>
+        <item>Try \"Axe\"</item>
+        <item>Try \"Denver\"</item>
+    </array>
+</resources>

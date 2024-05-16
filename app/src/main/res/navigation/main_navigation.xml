@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.app.ecom.weatherApp.ui.mainActivity.fragments.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/up_to_down"
+            app:exitAnim="@anim/down_to_up"
+            app:popEnterAnim="@anim/up_to_down"
+            app:popExitAnim="@anim/down_to_up" />
+        <action
+            android:id="@+id/action_homeFragment_to_productListFragment"
+
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_homeFragment_to_comingSoonFragment"
+            app:destination="@id/comingSoonFragment" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.app.ecom.weatherApp.ui.mainActivity.fragments.search.SearchFragment"
+        android:label="Search a user"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/up_to_down"
+            app:exitAnim="@anim/down_to_up"
+            app:popEnterAnim="@anim/up_to_down"
+            app:popExitAnim="@anim/down_to_up"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/comingSoonFragment"
+        android:name="com.app.ecom.weatherApp.ui.mainActivity.fragments.comingsoon.ComingSoonFragment"
+        android:label="ComingSoonFragment" />
+
+
+
+
+</navigation>
+
