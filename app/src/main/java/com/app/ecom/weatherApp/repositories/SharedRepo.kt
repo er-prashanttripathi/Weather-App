@@ -9,7 +9,6 @@ class SharedRepo(
 ) : SafeApiRequest() {
 
 
-
     suspend fun listclasssubject(examBoardClassId: Int): String {
         var response = ""
         try {
@@ -22,13 +21,10 @@ class SharedRepo(
     }
 
 
-
-
-
-    suspend fun checkclspurchased(ex_brd_cls: Int,ex_brd: Int,user: Int): String {
+    suspend fun checkclspurchased(ex_brd_cls: Int, ex_brd: Int, user: Int): String {
         var response = ""
         try {
-            response = apiRequest { api.checkclspurchased(ex_brd_cls,ex_brd,user) }
+            response = apiRequest { api.checkclspurchased(ex_brd_cls, ex_brd, user) }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("checkclspurchased", e.toString())
@@ -37,18 +33,22 @@ class SharedRepo(
     }
 
 
-    suspend fun weatherApi(lat: Double, lon: Double, appid: String,zip: String, units: String): String {
+    suspend fun weatherApi(
+        lat: Double,
+        lon: Double,
+        appid: String,
+        zip: String,
+        units: String
+    ): String {
         var response = ""
         try {
-            response = apiRequest { api.weatherApi(lat,lon,appid,zip,units) }
+            response = apiRequest { api.weatherApi(lat, lon, appid, zip, units) }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("weatherApi", e.toString())
         }
         return response
     }
-
-
 
 
 }

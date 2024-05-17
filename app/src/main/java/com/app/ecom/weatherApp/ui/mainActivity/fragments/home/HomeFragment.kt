@@ -66,7 +66,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
     val ApiKeyWeather = "a9933cf8b239b613efa806adc3c8f79a"
     private var errorDialogShown = false
     private var currentAddress = ""
-    private lateinit var nMap: GoogleMap
+//    private lateinit var nMap: GoogleMap
     var zipCode = ""
     var locality = ""
     var latitude = 0.0
@@ -172,9 +172,9 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
         }
     }
 
-    @SuppressLint("MissingPermission")
+  /*  @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
+        *//**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
          * This is where we can add markers or lines, add listeners or move the camera.
@@ -182,8 +182,8 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
          * If Google Play Stations is not installed on the device, the user will be prompted to
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play Stations and returned to the app.
-         */
-        /**
+         *//*
+        *//**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
          * This is where we can add markers or lines, add listeners or move the camera.
@@ -191,7 +191,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
          * If Google Play Stations is not installed on the device, the user will be prompted to
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play Stations and returned to the app.
-         */
+         *//*
         nMap = googleMap
         nMap.clear()
 
@@ -215,7 +215,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
         )
 
-    }
+    }*/
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupclisklistener() {

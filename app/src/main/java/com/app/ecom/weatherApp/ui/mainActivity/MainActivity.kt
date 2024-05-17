@@ -45,15 +45,10 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-      /*  *//**CODE TO RESTRICT SCREEN RECORD AND SNAPSHOT*//*
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        )*/
+
         setContentView(binding.root)
         viewModel = ViewModelProvider(this, factory)[SharedVM::class.java]
         preferenceManager = PreferenceManager.instance
-//        permission()
         setupNavController()
         connectionLiveData = ConnectionLiveData(this)
         connectionLiveData.observe(this) { isNetworkAvailable ->
@@ -62,20 +57,13 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             }
         }
     }
-    /*   fun openDrawer() {
-           binding.drawerlayout.openDrawer(GravityCompat.START)
-       }
-       fun closeDrawer() {
-           binding.drawerlayout.closeDrawer(GravityCompat.START)
-       }*/
 
 
     private fun updateUI(it: Boolean) {
         if (it) {
             Log.e("Network", "Available")
 //            setupHandler()
-        }
-        else {
+        } else {
 //            closeDrawer()
             Log.e("Network", "not Available")
             CFAlertDialog.Builder(this)
@@ -102,13 +90,10 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     }
 
 
-
     override fun onSupportNavigateUp(): Boolean {
         navController.navigateUp()
         return true
     }
-
-
 
 
     // Function to replace fragments in the fragment container
