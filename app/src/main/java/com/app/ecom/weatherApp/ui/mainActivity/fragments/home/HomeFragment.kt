@@ -46,6 +46,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
+import com.sports.battle.utils.onDebouncedListener
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
@@ -63,7 +64,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
     private lateinit var viewModel: SharedVM
     private lateinit var preferenceManager: PreferenceManager
     val ApiKeyWeather = "a9933cf8b239b613efa806adc3c8f79a"
-
+    private var errorDialogShown = false
     private var currentAddress = ""
     private lateinit var nMap: GoogleMap
     var zipCode = ""
@@ -81,6 +82,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
         })
         // Find current location and initiate weather API call
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
@@ -107,20 +109,26 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
         private const val LOCATION_PERMISSION_REQUEST_CODE = 100
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         preferenceManager = com.app.ecom.weatherApp.helpers.PreferenceManager.instance
         viewModel = ViewModelProvider(requireActivity(), factory)[SharedVM::class.java]
-
-
         setupclisklistener()
+        setupViews()
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setupViews() {
+// Initialize swipeRefreshLayout and set listener
+        binding.swipeLayout.setOnRefreshListener(this)
 
         if (isLocationPermissionGranted()) {
             // Proceed with location retrieval
             findCurrentLocation()
             setupCurrentLocation()
-        } else {
+        }
+        else {
             // Request permissions from the user
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -128,10 +136,8 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
                 LOCATION_PERMISSION_REQUEST_CODE
             )
         }
-
-// Initialize swipeRefreshLayout and set listener
-        binding.swipeLayout.setOnRefreshListener(this)
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupCurrentLocation() {
@@ -142,7 +148,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
                 latitude = gpsTracker.latitude
                 longitude = gpsTracker.longitude
                 locality = gpsTracker.getLocality(requireContext()) // Pass context here
-                showToast("${latitude},${longitude}")
+//                showToast("${latitude},${longitude}")
 
                 if (latitude != null && longitude != null) {
                     // Perform weather API call or any other operation with location
@@ -214,12 +220,13 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupclisklistener() {
         binding.apply {
-            btnSearch.setOnClickListener {
+            btnSearch.onDebouncedListener {
                 openAddLocationSheet("Sheet opened")
 
             }
         }
     }
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -234,7 +241,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
         val etAddress = bottomSheetDialog.findViewById<TextInputEditText>(R.id.et_address)
         btnSearchLoc?.setOnClickListener {
             if (!etAddress?.text.toString().isNullOrEmpty()) {
-                context?.toast("Location Updated !")
+                context?.toast("Location Changed !!")
                 weatherApi(
                     latitude,
                     longitude,
@@ -264,31 +271,22 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), "${message}", Toast.LENGTH_SHORT).show()
     }
+    private fun errorDialog(errMsg: String) {
+        Log.e("Error", "not Available")
+        CFAlertDialog.Builder(requireContext())
+            .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+            .setHeaderView(R.layout.dialog_header_api_failed)
+            .setTitle("No Data Found!!")
+            .setMessage("${errMsg}")
+            .addButton(
+                "Dismiss", -1, -1,
+                CFAlertDialog.CFAlertActionStyle.NEGATIVE,
+                CFAlertDialog.CFAlertActionAlignment.JUSTIFIED
+            ) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
+            .show()
 
-    fun errorDialog(errMsg: String) {
-        val dialog = Dialog(requireContext())
-
-        dialog?.setCancelable(true)
-        dialog?.setContentView(R.layout.dialog_header_api_failed)
-        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialog?.window?.attributes)
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-
-        val title = dialog?.findViewById<TextView>(R.id.tv_title)
-
-        val subtitle = dialog?.findViewById<TextView>(R.id.tv_sub_title)
-        subtitle?.text = errMsg
-
-        val btnClose = dialog?.findViewById<TextView>(R.id.btn_close)
-        btnClose?.setOnClickListener {
-            dialog?.dismiss()
-        }
-        dialog?.show()
-        dialog?.window?.attributes = lp
     }
+
 
     private fun showExitDialog() {
         CFAlertDialog.Builder(context)
@@ -315,9 +313,9 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
             .show()
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun weatherApi(lat: Double, lon: Double, appid: String, zip: String, units: String) {
-
         // Call the API function
         viewModel.weatherApi(lat, lon, appid, "${zip}", units)
 
@@ -350,11 +348,18 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
                     }
                 } catch (e: Exception) {
                     Log.e("Error", "locationApi: ${e}")
-                    errorDialog("${e}")
+                    if (!errorDialogShown) {
+                        errorDialog("${e}")
+                        errorDialogShown = true
+                    }
                 }
 
 
             } else {
+                if (!errorDialogShown) {
+                    errorDialog("No Data Found")
+                    errorDialogShown = true
+                }
                 errorDialog("No Data Found")
                 Log.e("locationApi", "Response is null")
             }
@@ -362,6 +367,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
 
         })
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun formatTimestampToTime(timestamp: Long): String {
@@ -373,6 +379,7 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
 
         return dateTime.format(formatter)
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onRequestPermissionsResult(
@@ -392,8 +399,9 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
             }
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun findCurrentLocation() {
         // Check for location permission
         if (isLocationPermissionGranted()) {
@@ -420,16 +428,17 @@ class HomeFragment : Fragment(), KodeinAware, SwipeRefreshLayout.OnRefreshListen
         }
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onRefresh() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (isLocationPermissionGranted()) {
                 findCurrentLocation()
-                showToast("swipe worked")
+                showToast("Location Updated")
                 weatherApi(latitude, longitude, ApiKeyWeather, zipCode, "metric")
 
             } else {
-                showToast("swipe not worked")
+//                showToast("swipe not worked")
 
                 // Request location permission
                 ActivityCompat.requestPermissions(

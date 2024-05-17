@@ -74,7 +74,8 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         if (it) {
             Log.e("Network", "Available")
 //            setupHandler()
-        } else {
+        }
+        else {
 //            closeDrawer()
             Log.e("Network", "not Available")
             CFAlertDialog.Builder(this)
